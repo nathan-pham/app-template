@@ -16,7 +16,10 @@ export default class Sketch {
                 : container;
 
         this.components = [];
-        this.time = 0;
+        this.uniforms = {
+            uTime: { value: 0 },
+        }
+        // this.time = 0;
 
         // initialize Three.js
         this.#createScene();
@@ -133,7 +136,8 @@ export default class Sketch {
         const core = () => {
             requestAnimationFrame(core);
 
-            this.time += 0.01;
+            // update global uniforms
+            this.uniforms.uTime.value += 0.01;
 
             this.components.forEach((component) => component.update(this));
             this.components.forEach((component) => component.render(this));

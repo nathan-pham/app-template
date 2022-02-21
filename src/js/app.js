@@ -6,5 +6,5 @@ import Plane from "./components/Plane";
 
 const sketch = new Sketch({ enableControls: false, container: "#app" });
 
-sketch.add(new Plane());
+sketch.add(new Plane(sketch));
 sketch.startCore();

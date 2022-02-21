@@ -7,22 +7,18 @@ import vertexShader from "./vertexShader.glsl";
 export default class Plane extends Component {
     name = "plane";
 
-    constructor() {
+    constructor({ uniforms, size }) {
         super();
 
-        const geometry = new THREE.PlaneBufferGeometry(100, 100);
+        const vMin = Math.min(size.width, size.height) / 2;
+
+        const geometry = new THREE.PlaneBufferGeometry(vMin, vMin);
         const material = new THREE.ShaderMaterial({
-            uniforms: {
-                time: { value: 0 },
-            },
+            uniforms,
             vertexShader,
             fragmentShader,
         });
 
         this.object = new THREE.Mesh(geometry, material);
-    }
-
-    update(app) {
-        this.object.material.uniforms.time.value = app.time;
     }
 }
