@@ -103,6 +103,9 @@ export default class Sketch {
             this.camera.fov = 2 * Math.atan((this.size.height / 2) / this.camera.position.z) * (180 / Math.PI);
             this.camera.aspect = this.aspect;
             this.camera.updateProjectionMatrix();
+
+            // resize all components
+            this.components.forEach((component) => component.resize(this));
         };
 
         onResize();
@@ -129,8 +132,8 @@ export default class Sketch {
         const core = () => {
             requestAnimationFrame(core);
 
-            this.components.forEach((component) => component.update());
-            this.components.forEach((component) => component.render());
+            this.components.forEach((component) => component.update(this));
+            this.components.forEach((component) => component.render(this));
 
             if (this.enableControls) {
                 this.controls.update();

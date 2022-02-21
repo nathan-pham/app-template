@@ -3,4 +3,6 @@ export default class Component {
 
     render() {}
     update() {}
+    
+    resize() {}
 }
