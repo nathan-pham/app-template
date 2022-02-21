@@ -18,8 +18,7 @@ export default class Sketch {
         this.components = [];
         this.uniforms = {
             uTime: { value: 0 },
-        }
-        // this.time = 0;
+        };
 
         // initialize Three.js
         this.#createScene();
@@ -139,9 +138,8 @@ export default class Sketch {
             // update global uniforms
             this.uniforms.uTime.value += 0.01;
 
-            this.components.forEach((component) => component.update(this));
-            this.components.forEach((component) => component.render(this));
-
+            // update all components
+            this.components.forEach((component) => component.core(this));
             if (this.enableControls) {
                 this.controls.update();
             }

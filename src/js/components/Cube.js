@@ -13,7 +13,7 @@ export default class Cube extends Component {
         this.object.position.set(0, 0, 0);
     }
 
-    update() {
+    core() {
         this.object.rotation.x += 0.01;
         this.object.rotation.y += 0.02;
     }
