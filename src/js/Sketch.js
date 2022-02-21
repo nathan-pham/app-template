@@ -16,6 +16,7 @@ export default class Sketch {
                 : container;
 
         this.components = [];
+        this.time = 0;
 
         // initialize Three.js
         this.#createScene();
@@ -131,6 +132,8 @@ export default class Sketch {
     startCore() {
         const core = () => {
             requestAnimationFrame(core);
+
+            this.time += 0.01;
 
             this.components.forEach((component) => component.update(this));
             this.components.forEach((component) => component.render(this));
