@@ -7,13 +7,14 @@ export default class Cube extends Component {
     constructor() {
         super();
 
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const geometry = new THREE.BoxGeometry(100, 100, 100);
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         this.object = new THREE.Mesh(geometry, material);
+        this.object.position.set(0, 0, 0);
     }
 
     update() {
         this.object.rotation.x += 0.01;
-        this.object.rotation.y += 0.02;        
+        this.object.rotation.y += 0.02;
     }
 }

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default class Sketch {
     /**
@@ -20,10 +21,21 @@ export default class Sketch {
         this.#createScene();
         this.#createCamera();
         this.#createRenderer();
+
+        if (this.enableControls) {
+            this.#createControls();
+        }
+
+        // add event listeners
+        this.#addEventListeners();
     }
 
+    /**
+     * add components to Sketch
+     * @param  {...any} components - components to add to Sketch
+     */
     add(...components) {
-        components.forEach((component) => {
+        components.flat(Infinity).forEach((component) => {
             this.components.push(component);
             this.scene.add(component.object);
         });
@@ -48,8 +60,6 @@ export default class Sketch {
         return this.size.width / this.size.height;
     }
 
-    get viewport() {}
-
     /**
      * initialize Three.js scene
      * @private
@@ -65,8 +75,8 @@ export default class Sketch {
      * @returns {void}
      */
     #createCamera() {
-        this.camera = new THREE.PerspectiveCamera(75, this.aspect, 0.1, 1000);
-        this.camera.position.z = 5;
+        this.camera = new THREE.PerspectiveCamera(75, this.aspect, 0.1, 2000);
+        this.camera.position.z = 600;
     }
 
     /**
@@ -81,6 +91,37 @@ export default class Sketch {
     }
 
     /**
+     * add event listeners
+     * @private
+     * @returns {void}
+     */
+    #addEventListeners() {
+        const onResize = () => {
+            this.renderer.setSize(this.size.width, this.size.height);
+
+            // prettier-ignore
+            this.camera.fov = 2 * Math.atan((this.size.height / 2) / this.camera.position.z) * (180 / Math.PI);
+            this.camera.aspect = this.aspect;
+            this.camera.updateProjectionMatrix();
+        };
+
+        onResize();
+        window.addEventListener("resize", onResize);
+    }
+
+    /**
+     * add orbit controls
+     * @private
+     * @returns {void}
+     */
+    #createControls() {
+        this.controls = new OrbitControls(
+            this.camera,
+            this.renderer.domElement
+        );
+    }
+
+    /**
      * animation loop
      * @returns {void}
      */
@@ -90,6 +131,10 @@ export default class Sketch {
 
             this.components.forEach((component) => component.update());
             this.components.forEach((component) => component.render());
+
+            if (this.enableControls) {
+                this.controls.update();
+            }
 
             this.renderer.render(this.scene, this.camera);
         };
